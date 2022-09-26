@@ -1,0 +1,77 @@
+ *************************************************************************
+ * Program	:	BattleDotNet			    		 *
+ * Author	:	Vinoth V			    		 *
+ * Date		: 	22-sep-2022			    		 *
+ *************************************************************************
+1. Overview
+--------------------------------------------------------------------------
+BattleDot, an unpopular networked spinoff of the popular Battleship game. 
+Rather than having two players oppose each other directly, any player will 
+be attacked by one opponent and in turn will attack a different opponent.  
+ 
+Players are connected in a ring: A is bombing B who is bombing C, ... who 
+is bombing Z who is bombing A.   
+
+Each player has a 10x10 grid of "dots" where one "single-dot ship" is 
+positioned randomly. A player loses if this ship is bombed.   
+
+Players cannot see each other's grids directly. Each player randomly selects
+a dot location on the enemy grid to bomb and sends the bomb to the enemy. 
+If the bomb lands in the enemy's dot-ship, the enemy dies; otherwise, it 
+lives. When a player dies, relevant neighbors are matched up so that their 
+unfinished games can continue.   
+
+2. How to Compile
+--------------------------------------------------------------------------
+It is compiled using makefile. Run "make" cmd to compile
+when you compile following output shall be observed.
+Make sure, you the make command in the same directory.
+
+
+>$ make
+gcc -lpthread -g battledotnet.c threads.c log.c -o game
+>$ 
+
+
+3. How to RUN
+--------------------------------------------------------------------------
+No need to compile and run separately. "run_cmd.sh" script does compile
+, clearing of out log files and run  the game binary.
+
+
+vinoth@vinoth-virtual-machine:~/Downloads/battledotnet$ ./run_cmd.sh 
+gcc -lpthread -g battledotnet.c threads.c log.c -o game
+vinoth@vinoth-virtual-machine:~/Downloads/battledotnet$ 
+
+This will not print any thing on the terminal, all the output are logged
+in "log.txt" file.
+
+
+4. Check LOGS
+--------------------------------------------------------------------------
+We can check for logs for game flow and winner output.
+
+This logs confirms Player sequence 
+
+	00:58:48:[thread_func:        87] Player A1 =====ATTACK====> Player Name B1
+	00:58:48:[bombPlayer:       234] !..OOpps missed it
+
+This logs confirms player bombing and destorying opponent
+
+	00:58:49:[bombPlayer:       226] !.Boooom..! Enemy destoryed
+	00:58:49:[thread_func:        98] Target Player E1  Destoryed
+
+This logs confirm player who won the game
+
+	00:58:49: WINNER WINNER CHICKERN DINNER
+	00:58:49: Player B1 is the Winner
+
+5. Increase the players 
+--------------------------------------------------------------------------
+In threads.c file change the MAX_THREADS to any value and that many 
+number of players can be played. Not more than 50.
+
+//TODO - improvements
+ - Introducing signals to handle interrupts
+ - can implement over message queues to access across process.
+
